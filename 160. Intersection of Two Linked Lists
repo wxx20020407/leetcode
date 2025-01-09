@@ -1,0 +1,65 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+// Solution 1. force (439ms 17.2MB)
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    for(struct ListNode *A = headA; A != NULL; A = A->next)
+    {
+        for(struct ListNode *B = headB; B != NULL; B = B->next)
+        {
+            if(A == B)
+            return A;
+        }
+    }
+    return 0;
+}
+
+
+// Solution 2. (41ms 18.6MB)
+class Solution {
+public:
+    int len(ListNode *p){
+        int cnt = 0;
+        while(p){
+            p = p->next;
+            cnt++;
+        }
+        return cnt;
+    }
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int diff = len(headA)-len(headB);
+        while(diff > 0){
+            headA = headA->next;
+            diff--;
+        }
+        while(diff < 0){
+            headB = headB->next;
+            diff++;
+        }
+        while(headA && headB && (headA != headB)){
+            headA = headA->next;
+            headB = headB->next;
+        }
+        return headA;
+    }
+};
+
+// Solution 3. (42ms 18.6MB)
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *A = headA;
+        ListNode *B = headB;
+        while(A != B){
+            A = (A == nullptr ? headB : A->next);
+            B = (B == nullptr ? headA : B->next);
+        }
+        return A;
+    }
+};
