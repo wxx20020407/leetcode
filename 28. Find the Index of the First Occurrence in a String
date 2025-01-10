@@ -1,0 +1,47 @@
+28. Find the Index of the First Occurrence in a String
+
+// Solution 1. KMP (0ms 8.66MB)
+class Solution {
+public:
+    vector<int> construct_next(string needle){
+        vector<int> next = {0};
+        int i =1;
+        int now = 0;
+        while(i < needle.length()){
+            if(needle[i] == needle[now]){
+                next.emplace_back(now+1);  //here, warning!!!!!
+                i++; now++;
+            }
+            else if(now){
+                now = next[now-1];
+            }
+            else{
+                next.emplace_back(0);
+                i++;
+            }
+        }
+        return next;
+    }
+    int strStr(string haystack, string needle) {
+    vector<int> next = construct_next(needle);
+    int tar = 0;
+    int pos = 0;
+    while(tar < haystack.length()){
+        if(needle[pos] == haystack[tar]){
+            pos++; tar++;
+        }
+        else if(pos){
+            pos = next[pos-1];
+        }
+        else{
+            tar++;
+        }
+        if(pos == (needle.length())){
+            return tar-needle.length();
+        }
+    }
+    return -1;
+
+
+    }
+};
