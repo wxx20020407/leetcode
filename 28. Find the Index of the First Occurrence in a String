@@ -46,7 +46,7 @@ public:
     }
 };
 
-// Solution 2. Brute Force.
+// Solution 2. Brute Force. (0ms 8.68MB)
 class Solution {
 public:
     int strStr(string haystack, string needle) {
