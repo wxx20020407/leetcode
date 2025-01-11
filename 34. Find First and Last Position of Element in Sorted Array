@@ -1,0 +1,28 @@
+34. Find First and Last Position of Element in Sorted Array
+
+// Solution 1 (0ms 17.64MB)
+class Solution {
+public:
+    vector<int> searchfirstlast(vector<int>& nums, int target, int pos){
+        int left = pos; int right = pos;
+        while(left >= 0 && nums[left] == target) --left;
+        while(right < nums.size() && nums[right] == target) ++right;
+        vector<int> ans={left+1,right-1};
+        return ans;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(nums.empty()) return vector<int>{-1,-1};
+        int left = 0;
+        int right = nums.size() - 1;
+        int mid;
+        if(nums[left] == target) return searchfirstlast(nums, target, left);
+        if(nums[right] == target) return searchfirstlast(nums, target, right);
+        while(left <= right){
+            mid = (int)((left + right) / 2);
+            if(nums[mid] == target) return searchfirstlast(nums, target, mid);
+            else if(nums[mid] > target) right = mid - 1;
+            else left = mid + 1;
+        }
+        return vector<int>{-1,-1};
+    }
+};
