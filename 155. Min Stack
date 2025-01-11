@@ -1,4 +1,5 @@
 155. Min Stack
+
 // Solution 1. C++ (4ms 24.62MB)
 class MinStack {
 private:
@@ -36,3 +37,65 @@ public:
  * int param_3 = obj->top();
  * int param_4 = obj->getMin();
  */
+
+// Solution 2. C (8ms 18.71MB)
+typedef struct Minstack{
+    int val;
+    int min;
+    struct Minstack *next;
+} MinStack;
+
+
+MinStack* minStackCreate() {
+    MinStack *obj = (MinStack *)malloc(sizeof(MinStack));
+    obj->val = -1;
+    obj->min = INT_MAX;
+    obj->next = NULL;
+    return obj;
+}
+
+void minStackPush(MinStack* obj, int val) {
+    MinStack *new = (MinStack *)malloc(sizeof(MinStack));
+    new->val = val;
+    new->min = obj->next == NULL ? val : fmin(obj->next->min,val);
+    new->next = obj->next;
+    obj->next = new;
+}
+
+void minStackFree(MinStack* obj) {
+    MinStack *tmp;
+    while(obj){
+       tmp = obj;
+       obj = obj->next;
+       free(tmp); 
+    }
+}
+
+void minStackPop(MinStack* obj) {
+    MinStack *tmp = obj->next;
+    obj->next = obj->next->next;
+    tmp->next = NULL;
+    minStackFree(tmp);
+}
+
+int minStackTop(MinStack* obj) {
+    return obj->next == NULL ? -1 : obj->next->val;   
+}
+
+int minStackGetMin(MinStack* obj) {
+    return obj->next == NULL ? -1 : obj->next->min;
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, val);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
