@@ -35,3 +35,10 @@ public:
         return  ans;
     }
 };
+
+/* WARNING!!!!!
+don't make it :
+if(height[left] < height[right]){ ++left; } 
+if(height[left] >= height[right]){ --right; }
+because the index changed before you made the second comparison.
+*/
