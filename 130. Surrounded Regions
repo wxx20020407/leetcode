@@ -1,0 +1,34 @@
+130. Surrounded Regions
+// Solution 1 (0ms 13.75MB)
+class Solution {
+public:
+    void determine(vector<vector<char>>& board, int x, int y){
+        if(x < 0 || x >= board.size() || y < 0 || y >= board[0].size() || board[x][y] != 'O')   return;
+        board[x][y] = 'N';
+        determine(board, x-1, y);
+        determine(board, x+1, y);
+        determine(board, x, y-1);
+        determine(board, x, y+1);
+    }
+    void solve(vector<vector<char>>& board) {
+        for(int i = 0; i < board.size(); ++i){
+            determine(board, i, 0);
+            determine(board, i, board[0].size()-1);
+        }
+        for(int j = 1; j < board[0].size()-1; ++j){
+            determine(board, 0, j);
+            determine(board, board.size()-1, j);
+        }
+        for(int m = 0; m < board.size(); ++m){
+            for(int n = 0; n < board[0].size(); ++n){
+                if(board[m][n] == 'O') board[m][n] = 'X';
+                else if(board[m][n] == 'N') board[m][n] = 'O';
+            }
+        }
+    }
+};
+
+/* WARNING！！！！
+Don't find surrounded areas, that's hard.
+Find the areas that are not surrounded instead.
+*/
