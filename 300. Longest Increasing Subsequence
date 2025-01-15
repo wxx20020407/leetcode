@@ -1,0 +1,39 @@
+300. Longest Increasing Subsequence
+
+// Solution 1. Time limit exceeded...
+class Solution {
+public:
+    int find(vector<int>& nums, int index, int max){
+        if(!index){
+            return (nums[index] < max) ? 1 : 0;
+        }
+        if(nums[index] < max) return std::max(find(nums, index-1, nums[index]) + 1, find(nums, index-1, max));
+        else return find(nums, index-1, max);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        return find(nums, nums.size()-1, 10001);
+    }
+};
+
+// Solution 2. Dynamic Programming. (49ms 14.22MB)
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        std::vector<int> dp(nums.size());
+        int ans = 1;
+        for(int i = 0; i < nums.size(); ++i){
+            dp[i] = 1;
+            int cmp = nums[i];
+            for(int j = 0; j < i; ++j){
+                if(nums[j] < cmp) dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+            ans = std::max(ans, dp[i]);
+        }
+        return ans;
+    }
+};
+
+/* 精髓在于：
+1. 不要回溯要dp，不然时间会炸掉。
+2. 基本思想--分割任务，每一层做好自己的事情。
+*/
