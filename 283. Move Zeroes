@@ -1,0 +1,33 @@
+283. Move Zeroes
+
+// Solution 1. (59ms 23.84MB)
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = 0;
+        int z = 0;
+        while(1){
+            while(z < nums.size() && nums[z] != 0) ++z;
+            n = z;
+            while(n < nums.size() && nums[n] == 0) ++n;
+            if(z >= nums.size() || n >= nums.size()) return;
+            nums[z] = nums[n];
+            nums[n] = 0;
+            if(n == nums.size()) return;
+        }
+    }
+};
+
+// Solution 2. (0ms 23.83MB)
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int count = -1;
+        for(int i = 0; i < nums.size(); ++i){
+            if(nums[i] != 0) std::swap(nums[++count],nums[i]);
+        }
+    }
+};
+
+/* 考虑数字应该出现在什么位置上，
+而不是考虑谁跟谁交换，减少判断 */
