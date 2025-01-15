@@ -1,0 +1,21 @@
+69. Sqrt(x)
+// Solution 1. (0ms 8.55MB)
+class Solution {
+public:
+    int mySqrt(int x) {
+        int left = 0;
+        unsigned long long right = (unsigned long long)x + 1;
+        unsigned long long mid;
+        while(left < right){
+            mid = (left + right) / 2;
+            unsigned long long b1 = mid * mid;
+            unsigned long long b2 = (mid + 1) * (mid + 1);
+            if(b1 <= x && b2 > x) break;
+            else if(x < b1) right = mid;
+            else left = mid + 1;
+        }
+        return mid;
+    }
+};
+
+/* Warning of overflow!!! */
