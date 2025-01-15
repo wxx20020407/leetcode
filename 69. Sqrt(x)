@@ -1,4 +1,5 @@
 69. Sqrt(x)
+
 // Solution 1. (0ms 8.55MB)
 class Solution {
 public:
@@ -19,3 +20,22 @@ public:
 };
 
 /* Warning of overflow!!! */
+
+// Solution 2. Avoid using unsigned long long. (0ms 8.47MB)
+class Solution {
+public:
+    int mySqrt(int x) {
+        if(x == 0) return 0;
+        if(x == 1) return 1;
+        int left = 0;
+        int right = x;
+        int mid;
+        while(left <= right){
+            mid = left / 2 + right / 2 + (left % 2 && right % 2);
+            if(mid <= x / mid && mid + 1 > x / (mid + 1)) break;
+            else if(x / mid < mid) right = mid;
+            else left = mid + 1;
+        }
+        return mid;
+    }
+};
