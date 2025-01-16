@@ -1,0 +1,55 @@
+217. Contains Duplicate
+
+// Solution 1. Quick sort by C++. (19ms 61.18MB)
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        std::sort(nums.begin(),nums.end());
+        for(int i = 0; i < nums.size() - 1; ++i){
+            if(nums[i] == nums[i+1]) return true;
+        }
+        return false;
+    }
+};
+
+// Solution 2. Quick sort by hand. Time Limit Exceeded.
+class Solution {
+public:
+    void swap(vector<int>& nums, int a, int b){
+        int tmp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = tmp;
+    }
+    int partition(vector<int>& nums, int left, int right){
+        int cmp = nums[left];
+        int index = left + 1;
+        for(int i = index; i <= right; ++i){
+            if(nums[i] < cmp) swap(nums, i, index++);
+        }
+        swap(nums, left, index-1);
+        return index-1;
+    }
+    void qsort(vector<int>& nums, int left, int right){
+        if(left < right){
+            int pivot = partition(nums, left, right);
+            qsort(nums, left, pivot-1);
+            qsort(nums, pivot+1, right);
+        }
+    }
+    bool containsDuplicate(vector<int>& nums) {
+        qsort(nums, 0, nums.size()-1);
+        for(int i = 0; i < nums.size() - 1; ++i){
+            if(nums[i] == nums[i+1]) return true;
+        }
+        return false;
+    }
+};
+
+// Solution 3. Use Set. (39ms 75.76MB)
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> numset(nums.begin(),nums.end());
+        return numset.size() < nums.size();
+    }
+};
